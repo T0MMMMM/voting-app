@@ -1,0 +1,17 @@
+---
+# Rôle "deps" : installe les dépendances Python de la voting-app.
+# La liste des paquets vient de la variable `pip_packages` définie dans paybook.yml
+# (redis, flask, requests).
+
+# L'image python:3.13 est minimale : le module `pip` d'Ansible a besoin de la
+# librairie `packaging` (sinon erreur "No module named 'packaging'"). On
+# l'installe avec une commande pip directe avant d'utiliser le module pip.
+- name: Bootstrap des libs requises par le module pip d'Ansible
+  ansible.builtin.command:
+    cmd: pip install --no-cache-dir packaging setuptools
+  changed_when: true
+
+- name: Installer les paquets pip nécessaires à la voting-app
+  ansible.builtin.pip:
+    name: "{{ pip_packages }}"
+    state: present

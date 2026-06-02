@@ -1,0 +1,13 @@
+- name: Install deps and copy source code
+  hosts: all
+  gather_facts: false
+  roles:
+    - role: "./roles/deps/"
+      vars:
+        pip_packages: ["redis", "flask", "requests"]
+  tasks:
+    - name: "Copy source code to container"
+      ansible.builtin.copy:
+        src: "./azure-vote"
+        dest: "/app"
+        mode: "550"

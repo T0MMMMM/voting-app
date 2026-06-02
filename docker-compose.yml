@@ -1,0 +1,16 @@
+
+services:
+  azure-vote-back:
+    image: docker.io/redis
+    container_name: azure-vote-dbcache
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
+
+
+  azure-vote-front:
+    build:
+      context: .
+    environment:
+      REDIS: azure-vote-dbcache
+    ports:
+        - "8080:80"
