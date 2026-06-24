@@ -44,3 +44,11 @@ jobs:
       # 5. Envoi de l'image sur Docker Hub
       - name: Docker push
         run: docker push "$IMAGE"
+
+      # 6. (CD) Déploiement sur Kubernetes via Helm
+      # - run: helm upgrade --install azure-vote ./deploy/azure-vote   # ⛔ impossible ici : infra LOCALE (Docker + kind), pas de cloud → le runner GitHub ne peut pas joindre le cluster
+      #
+      # ➜ Déploiement fait À LA MAIN en local :
+      #     docker build -t t0mmmmm/voting-app:latest .
+      #     kind load docker-image t0mmmmm/voting-app:latest --name tp-k8s
+      #     helm upgrade --install azure-vote ./deploy/azure-vote
